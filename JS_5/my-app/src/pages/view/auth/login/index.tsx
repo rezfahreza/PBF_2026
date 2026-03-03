@@ -10,11 +10,24 @@ const TampilanLogin = () => {
         router.push("../produk");
     };
     return (
-        <div className={style.login}>
-            <h1 className="text-3xl font-bold text-blue-600">Halaman Login</h1>
-            <button onClick={handleLogin}>Login</button>
-            <h1 style={{color:'red',border:'1px solid red',borderRadius:'5px',padding:'5px'}}>Belum punya akun?</h1>
-            <Link href="/auth/register">Ke Halaman Register</Link>
+        <div className="min-h-screen flex bg-gray-200">
+            
+            <div className="m-auto shadow-lg bg-white text-center">
+                <h3>Login Pages</h3>
+                <div>
+                    <input type="text" placeholder="login" />
+                </div>
+                <div>
+                    <input type="password" placeholder="password" />
+                </div>
+                <button onClick={handleLogin}>
+                    LOG IN
+                </button>
+                <hr />
+                <p>
+                    <Link href="/auth/register">Belum punya akun? Register di sini</Link>
+                </p>
+            </div>
         </div>
     );
 };
