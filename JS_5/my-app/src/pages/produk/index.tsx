@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import { useEffect,useState } from "react";
+import TampilanProduk from "../view/produk";
 
 const produk = () => {
     /*const [isLogin, setIsLogin] = useState(false);
@@ -11,7 +10,7 @@ const produk = () => {
     }, []);*/
     return (
         <div>
-            Produk User Page
+            <TampilanProduk />
         </div>
     );
 };

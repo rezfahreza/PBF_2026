@@ -7,7 +7,7 @@ const TampilanLogin = () => {
     const router = useRouter();
     const handleLogin = () => {
         // Login logic here
-        router.push("/produk");
+        router.push("../produk");
     };
     return (
         <div className={style.login}>
