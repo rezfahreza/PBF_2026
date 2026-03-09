@@ -3,6 +3,7 @@ import Navbar from "../navbar";
 import Footer from "../footer";
 
 const disableNavbar = ["/auth/login", "/auth/register", "/404"];
+const disableFooter = ["/auth/login", "/auth/register", "/404"];
 
 type AppShellProps = {
     children: React.ReactNode;
@@ -15,7 +16,7 @@ const AppShell = (props: AppShellProps) => {
         <main>
             {!disableNavbar.includes(pathname) && <Navbar />}
             {children}
-            <Footer />
+            {!disableFooter.includes(pathname) && <Footer />}
         </main>
     );
 };
