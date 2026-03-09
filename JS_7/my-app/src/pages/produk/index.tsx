@@ -13,16 +13,23 @@ const kategori = () => {
 
     const[products, setProducts] = useState([]);
 
-    useEffect(() => {
+    const fetchProducts = () => {
         fetch("/api/produk")
-            .then((responses) => responses.json())
-            .then((responsesdata) => setProducts(responsesdata.data))
-            .catch((error) => console.error("Error fetching products: ", error));
+            .then((response) => response.json())
+            .then((responseData) => setProducts(responseData.data))
+            .catch((error) => console.error("Error fetching products:", error));
+    };
+
+    useEffect(() => {
+        fetchProducts();
     }, []);
 
     return (
         <div>
             <h1>Daftar Produk</h1>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md mb-5 hover:bg-blue-600 transition" onClick={fetchProducts}>
+                Refresh Data
+            </button>
             {products.map((products: ProductType) => (
                 <div key={products.id}>
                     <h2>{products.name}</h2>
