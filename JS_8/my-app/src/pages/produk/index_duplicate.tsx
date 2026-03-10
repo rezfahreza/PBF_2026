@@ -5,6 +5,7 @@ type ProductType = {
     id: string;
     name: string;
     price: number;
+    image: string;
     size: string;
     category: string;
 };
@@ -32,6 +33,7 @@ const kategori = () => {
             </button>
             {products.map((products: ProductType) => (
                 <div key={products.id}>
+                    <img src={products.image} alt={products.name} width={200} />
                     <h2>{products.name}</h2>
                     <p>Kategori: {products.category}</p>
                     <p>Harga: Rp {products.price}</p>
