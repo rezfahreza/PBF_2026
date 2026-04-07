@@ -1,0 +1,83 @@
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  Firestore,
+  doc,
+  query,
+  where,
+  addDoc,
+} from "firebase/firestore";
+import app from "./firebase";
+import { stat } from "node:fs";
+import bcrypt from "bcrypt";
+import { use } from "react";
+
+const db = getFirestore(app);
+
+export async function retrieveProducts(collectionName: string) {
+    const snapshot = await getDocs(collection(db, collectionName));
+    const data = snapshot.docs.map((doc) => ({ 
+        id: doc.id,
+         ...doc.data(),
+    }));
+    return data;
+}
+
+export async function retrieveDataById(collectionName: string, id: string) {
+    const snapshot = await getDoc(doc(db, collectionName, id));
+    const data = snapshot.data();
+    return data;
+}
+
+export async function signIn( email: string ) {
+    const q = query(collection(db, "users"), where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    if (data) {
+        return data[0];
+    } else {
+        return null;
+    }
+}
+
+export async function signUp(
+    userData: {
+        email: string;
+        password: string;
+        fullname: string;
+        role?: string;
+    },
+    callback : Function,
+) {
+    const q =query(
+        collection(db, "users"),
+        where("email", "==", userData.email)
+    );
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    if (data.length > 0) {
+        callback({
+            status: "error",
+            message: "User already exists",
+        });
+    }else {
+        userData.password = await bcrypt.hash(userData.password, 10);
+        userData.role = "member";
+        await addDoc(collection(db, "users"), userData)
+            .then(() => {
+                callback({
+                status: "success",
+                message: "User registered successfully",
+                });
+            })
+            .catch((error) => {
+                callback({
+                status: "error",
+                message: error.message,
+                });
+            });
+    }
+}
